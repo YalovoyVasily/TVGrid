@@ -1,5 +1,4 @@
-﻿using NET48BOT;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +18,9 @@ namespace TVGrid
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginForm: Window
     {
-        public MainWindow()
+        public LoginForm()
         {
             InitializeComponent();
         }
@@ -29,6 +28,22 @@ namespace TVGrid
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             MyDB myDB = new MyDB();
+        }
+
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.tbLogin.Text == "" || this.tbPass.Password == "") {
+                this.lbErr.Visibility = Visibility.Visible;
+                return;
+            }
+            MainWondow mw = new MainWondow();
+            mw.Show();
+            this.Close();
         }
     }
 }

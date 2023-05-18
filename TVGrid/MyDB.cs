@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace SubbreditVkGroup
+namespace TVGrid
 {
     public class MyDB : DbContext
     {
