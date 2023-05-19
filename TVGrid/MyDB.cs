@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace TVGrid
 {
     public class MyDB : DbContext
     {
-        public DbSet<PostToGroup> Posts { get; set; }
+        public DbSet<Role> Role { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
 
-        public DbSet<Company> Companys { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
 
-        public DbSet<Country> Countrys { get; set; }
+        public DbSet<Program> Program { get; set; }
+        public DbSet<Advertisement> Advertisement { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,37 +29,58 @@ namespace TVGrid
         }
     }
 
-    public class PostToGroup
+    public class Role
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
-        public string DateAndTime { get; set; }
+        public string Description { get; set; }
 
     }
 
     public class User
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public int Age { get; set; }
+        public string FistName { get; set; }
+        public string LastName { get; set; }
+        public int PhoneNumber { get; set; }
+        public int RoleId { get; set; }
 
-        public int company_id { get; set; }
-
-        public IEnumerable<Company> Company { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
 
 
 
     }
 
-    public class Company
+    public class Schedule
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
+
+        public IEnumerable<Program> Programs { get; set; }
     }
-    public class Country
+
+    public class Program
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public IEnumerable<Advertisement> Advertisements { get; set; }
+    }
+
+    public class Advertisement
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int ProgramId { get; set; }
+
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
+
+
+        public IEnumerable<Program> Programs { get; set; }
     }
 }
 
