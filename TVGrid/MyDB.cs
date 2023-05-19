@@ -47,8 +47,6 @@ namespace TVGrid
 
         public IEnumerable<Role> Roles { get; set; }
 
-
-
     }
 
     public class Schedule
@@ -78,7 +76,6 @@ namespace TVGrid
 
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
-
 
         public IEnumerable<Program> Programs { get; set; }
     }
