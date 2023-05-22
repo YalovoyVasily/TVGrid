@@ -45,6 +45,10 @@ namespace TVGrid
         public int PhoneNumber { get; set; }
         public int RoleId { get; set; }
 
+
+        public int Password { get; private set; }
+        public string UserName { get; private set; }
+
         public IEnumerable<Role> Roles { get; set; }
 
     }
