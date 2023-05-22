@@ -90,12 +90,7 @@ namespace TVGrid.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Role");
                 });
@@ -150,16 +145,20 @@ namespace TVGrid.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("User");
                 });
 
             modelBuilder.Entity("TVGrid.Advertisement", b =>
                 {
-                    b.HasOne("TVGrid.Program", null)
+                    b.HasOne("TVGrid.Program", "Program")
                         .WithMany("Advertisements")
                         .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("TVGrid.Program", b =>
@@ -169,11 +168,15 @@ namespace TVGrid.Migrations
                         .HasForeignKey("ScheduleId");
                 });
 
-            modelBuilder.Entity("TVGrid.Role", b =>
+            modelBuilder.Entity("TVGrid.User", b =>
                 {
-                    b.HasOne("TVGrid.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
+                    b.HasOne("TVGrid.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("TVGrid.Program", b =>
@@ -184,11 +187,6 @@ namespace TVGrid.Migrations
             modelBuilder.Entity("TVGrid.Schedule", b =>
                 {
                     b.Navigation("Programs");
-                });
-
-            modelBuilder.Entity("TVGrid.User", b =>
-                {
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
