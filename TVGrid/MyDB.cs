@@ -49,7 +49,7 @@ namespace TVGrid
         public int Password { get; private set; }
         public string UserName { get; private set; }
 
-        public IEnumerable<Role> Roles { get; set; }
+        public Role Role { get; set; }
 
     }
 
