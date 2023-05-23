@@ -27,7 +27,7 @@ namespace TVGrid
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MyDB myDB = new MyDB();
+            
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
@@ -37,13 +37,18 @@ namespace TVGrid
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (this.tbLogin.Text == "" || this.tbPass.Password == "") {
+            //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
+            //insert into [Role] (Title, Description, UserId) values ('Админ', 'Админ системы', 1)
+            MyDB db = new();
+            int users = db.User.Where(u => u.UserName == this.tbLogin.Text && u.Password.ToString() == this.tbPass.Password).Count();
+            if (users <= 0)
+            {
                 this.lbErr.Visibility = Visibility.Visible;
                 return;
             }
-            MainWondow mw = new MainWondow();
+            MainWondow mw = new();
             mw.Show();
-            this.Close();
+            this.Close(); 
         }
     }
 }
