@@ -10,14 +10,14 @@
 
         <TabControl Margin="0,83,0,0">
             <TabItem Header="Расписание" FontFamily="Cascadia Code SemiBold">
-                <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                <DataGrid x:Name="dgShedule" d:ItemsSource="{d:SampleData ItemCount=5}"/>
             </TabItem>
             <TabItem Header="Реклама" FontFamily="Cascadia Code SemiBold">
 
             </TabItem>
         </TabControl>
-        <Button Content="Редактировать плейлист" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" IsEnabled="False"/>
-        <Label Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="171" FontFamily="Cascadia Code SemiBold"/>
+        <Button Content="Редактировать плейлист" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" IsEnabled="False" Click="Button_Click"/>
+        <Label x:Name="lblUserName" Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="171" FontFamily="Cascadia Code SemiBold"/>
 
     </Grid>
 </Window>

@@ -24,9 +24,16 @@ namespace TVGrid
             InitializeComponent();
         }
 
+        private MyDB myDB;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MyDB myDB = new MyDB();
+            myDB = new MyDB();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
