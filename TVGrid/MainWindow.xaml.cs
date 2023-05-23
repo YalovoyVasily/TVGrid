@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace TVGrid
 {
     /// <summary>
-    /// Логика взаимодействия для MainWondow.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWondow : Window
+    public partial class MainWindow : Window
     {
-        public MainWondow()
+        public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MyDB myDB = new MyDB();
         }
     }
 }
