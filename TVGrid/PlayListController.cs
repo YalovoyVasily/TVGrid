@@ -10,13 +10,15 @@ namespace TVGrid
 {
     internal class PlayListController
     {
-        public static async Task<bool> Save(Schedule sched)
+        public static async Task<bool> Save(IEnumerable<Schedule> scheds)
         {
-            if (sched == null) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
             try
             {
                 MyDB db = new();
-                await db.Schedule.AddAsync(sched);
+                foreach (Schedule sched in scheds) {
+                    await db.Schedule.AddAsync(sched);
+                }
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -27,13 +29,16 @@ namespace TVGrid
             }
         }
 
-        public static async Task<bool> Update(Schedule sched)
+        public static async Task<bool> Update(IEnumerable<Schedule> scheds)
         {
-            if (sched == null) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
             try
             {
                 MyDB db = new();
-                db.Entry(sched).State = EntityState.Modified;
+                foreach (Schedule sched in scheds)
+                {
+                    db.Entry(sched).State = EntityState.Modified;
+                }
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -44,13 +49,16 @@ namespace TVGrid
             }
         }
 
-        public static async Task<bool> Delete(Schedule sched)
+        public static async Task<bool> Delete(IEnumerable<Schedule> scheds)
         {
-            if (sched == null) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
             try
             {
                 MyDB db = new();
-                db.Entry(sched).State = EntityState.Deleted;
+                foreach (Schedule sched in scheds)
+                {
+                    db.Entry(sched).State = EntityState.Deleted;
+                }
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -61,13 +69,13 @@ namespace TVGrid
             }
         }
 
-        public static async Task<Schedule> Get(DateOnly date)
+        public static async Task<IEnumerable<Schedule>> Get(DateTime date)
         {
             try
             {
                 MyDB db = new();
-                Schedule sched = await db.Schedule.Include(s => s.Programs).ThenInclude(p => p.Advertisements).Where(s => DateOnly.FromDateTime(s.TimeStart) >= date && DateOnly.FromDateTime(s.TimeEnd) >= date);
-                return sched;
+                 IEnumerable<Schedule> sched = await db.Schedule.Include(s => s.Program).ThenInclude(ap => ap.AdvertisementProgram).ThenInclude(a => a.Advertisement).Where(s => s.TimeStart <= date && s.TimeEnd >= date).ToListAsync();
+                 return sched;
             }
             catch (Exception ex)
             {

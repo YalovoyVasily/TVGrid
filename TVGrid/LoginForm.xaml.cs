@@ -39,7 +39,7 @@ namespace TVGrid
         private async void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
-            //insert into [Role] (Title, Description, UserId) values ('Админ', 'Админ системы', 1)
+            //insert into [Role] (Title, Description) values ('Админ', 'Админ системы')
             MyDB db = new();
             User user = await db.User.Include(u => u.Role).FirstOrDefaultAsync(u =>  u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
             if (user == null)

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace TVGrid
+
 {
     public class MyDB : DbContext
     {
@@ -17,6 +19,7 @@ namespace TVGrid
         public DbSet<Advertisement> Advertisement { get; set; }
 
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
@@ -24,6 +27,19 @@ namespace TVGrid
         }
 
         public MyDB()
+        {
+            
+        }
+
+        public MyDB CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<MyDB>();
+            optionsBuilder.UseSqlServer("YourConnectionStringHere");
+
+            return new MyDB(optionsBuilder.Options);
+        }
+        public MyDB(DbContextOptions<MyDB> options)
+            : base(options)
         {
             Database.EnsureCreated();
         }
@@ -60,8 +76,9 @@ namespace TVGrid
         public int Id { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
+        public int ProgramID { get; set; }
+        public virtual Program Program { get; set; }
 
-        public IEnumerable<Program> Programs { get; set; }
     }
 
     public class Program
@@ -69,9 +86,19 @@ namespace TVGrid
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ScheduleID { get; set; }
-        public virtual Schedule Schedule { get; set; }
-        public IEnumerable<Advertisement> Advertisements { get; set; }
+        public IEnumerable<Schedule> Schedule { get; set; }
+        public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
+
+    }
+
+    public class AdvertisementProgram
+    {
+        public int Id { get; set; }
+        public int ProgramID { get; set; }
+        public int AdvertisementID { get; set; }
+
+        public virtual Advertisement Advertisement { get; set; }
+        public virtual Program Program { get; set; }
     }
 
     public class Advertisement
@@ -79,11 +106,10 @@ namespace TVGrid
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ProgramID { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
 
-        public virtual Program Program { get; set; }
+        public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
     }
 }
 
