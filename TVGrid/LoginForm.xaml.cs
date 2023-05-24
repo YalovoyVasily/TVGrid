@@ -47,11 +47,12 @@ namespace TVGrid
                 lbErr.Visibility = Visibility.Visible;
                 return;
             }
+
+            //Для получения параметров из любой части приложения App.getVar("UserName")
             App.setVar("UserName", user.LastName + " " + user.FistName);
             App.setVar("UserID", user.Id.ToString());
             App.setVar("RoleName", user.Role.Title);
             App.setVar("RoleID", user.Role.Id.ToString());
-            MessageBox.Show(App.getVar("UserName"));
             MainWindow mw = new();
             mw.Show();
             Close(); 
