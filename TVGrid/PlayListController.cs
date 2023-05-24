@@ -5,20 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace TVGrid
 {
-    internal class PlayListController
+    public class PlayListController
     {
-        public static async Task<bool> Save(IEnumerable<Schedule> scheds)
+
+        //insert into [Program] (Name, Description) values ('1', '1')
+        //insert into[Program] (Name, Description) values('2', '1')
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 00:00:00.000', '2023-05-19 01:00:00.000',1)
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 02:00:00.000', '2023-05-19 03:00:00.000',1)
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 03:00:00.000', '2023-05-19 04:00:00.000',1)
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 04:00:00.000', '2023-05-19 05:00:00.000',2)
+
+        public async Task<bool> Save(IEnumerable<Schedule> scheds)
         {
-            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Any() != true)  // scheds?.Count() == 0 изменил проверку, т.к. эта "scheds?.Count() == 0"  не работает, хз почему
+            { 
+                MessageBox.Show("Плейлист пустой"); 
+                return false; 
+            }
             try
             {
+
                 MyDB db = new();
-                foreach (Schedule sched in scheds) {
-                    await db.Schedule.AddAsync(sched);
-                }
+                await db.Schedule.AddRangeAsync(scheds); // тоже самое, но foreach не нужен 
+
+                //foreach (Schedule sched in scheds) {
+                //await db.Schedule.Add(scheds);
+                // }
+
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -29,9 +46,9 @@ namespace TVGrid
             }
         }
 
-        public static async Task<bool> Update(IEnumerable<Schedule> scheds)
+        public async Task<bool> Update(IEnumerable<Schedule> scheds)
         {
-            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Any() != true) { MessageBox.Show("Плейлист пустой"); return false; }
             try
             {
                 MyDB db = new();
@@ -49,9 +66,9 @@ namespace TVGrid
             }
         }
 
-        public static async Task<bool> Delete(IEnumerable<Schedule> scheds)
+        public async Task<bool> Delete(IEnumerable<Schedule> scheds)
         {
-            if (scheds?.Count() == 0) { MessageBox.Show("Плейлист пустой"); return false; }
+            if (scheds?.Any() != true) { MessageBox.Show("Плейлист пустой"); return false; }
             try
             {
                 MyDB db = new();
@@ -69,12 +86,16 @@ namespace TVGrid
             }
         }
 
-        public static async Task<IEnumerable<Schedule>> Get(DateTime date)
+        public async Task<IEnumerable<Schedule>> Get(DateTime dateFrom, DateTime dateTo) //  DateTime date добавил 2 даты, просто иначе инфу за временной период хуй получишь
         {
             try
             {
                 MyDB db = new();
-                 IEnumerable<Schedule> sched = await db.Schedule.Include(s => s.Program).ThenInclude(ap => ap.AdvertisementProgram).ThenInclude(a => a.Advertisement).Where(s => s.TimeStart <= date && s.TimeEnd >= date).ToListAsync();
+                 IEnumerable<Schedule> sched = await db.Schedule
+                    .Include(s => s.Program)
+                    .ThenInclude(ap => ap.AdvertisementProgram)
+                    .ThenInclude(a => a.Advertisement)
+                    .Where(s =>  s.TimeStart >= dateFrom && s.TimeEnd <= dateTo).ToListAsync();
                  return sched;
             }
             catch (Exception ex)
@@ -83,5 +104,59 @@ namespace TVGrid
                 return null;
             }
         }
+
+        //var dfsf = new PlayListController();
+        ////var dff =new DateTime(2023,5,19,00,00,00); //2023-05-19 00:00:00.000
+        ////var dff1 =new DateTime(2023,5,19,23,59,59); //2023-05-19 00:00:00.000
+
+        ////await dfsf.Get(dff, dff1);
+
+        ////var Schedule1 = new Schedule();
+
+        ////Schedule1.TimeStart= new DateTime(2023, 5, 19, 00, 00, 00);
+        ////Schedule1.TimeEnd= new DateTime(2023, 5, 19, 23, 59, 59);
+        ////Schedule1.ProgramID= 2;
+
+
+        ////var Schedule2 = new Schedule();
+
+        ////Schedule2.TimeStart = new DateTime(2024, 7, 19, 00, 00, 00);
+        ////Schedule2.TimeEnd = new DateTime(2024, 7, 19, 23, 59, 59);
+        ////Schedule2.ProgramID = 2;
+
+        ////var Schedulelist= new List<Schedule>() {Schedule1, Schedule2 };
+
+        ////await dfsf.Save(Schedulelist);
+
+        ////var Schedule3 = new Schedule();
+
+        ////Schedule3.TimeStart = new DateTime(2000, 7, 19, 00, 00, 00);
+        ////Schedule3.TimeEnd = new DateTime(2000, 7, 19, 23, 59, 59);
+        ////Schedule3.ProgramID = 1;
+        ////Schedule3.Id = 12;
+
+        ////var SchedulelistToUpdate = new List<Schedule>() { Schedule3 };
+
+        ////await dfsf.Update(SchedulelistToUpdate);
+
+
+        //var Schedule3 = new Schedule();
+
+        //Schedule3.TimeStart = new DateTime(2000, 7, 19, 00, 00, 00);
+        //Schedule3.TimeEnd = new DateTime(2000, 7, 19, 23, 59, 59);
+        //Schedule3.ProgramID = 1;
+        //Schedule3.Id = 12;
+
+        //var Schedule4 = new Schedule();
+
+        //Schedule4.TimeStart = new DateTime(2000, 7, 19, 00, 00, 00);
+        //Schedule4.TimeEnd = new DateTime(2000, 7, 19, 23, 59, 59);
+        //Schedule4.ProgramID = 1;
+        //Schedule4.Id = 14;
+
+        //var SchedulelistToDelete = new List<Schedule>() { Schedule3, Schedule4 };
+
+        //await dfsf.Delete(SchedulelistToDelete);
+
     }
 }
