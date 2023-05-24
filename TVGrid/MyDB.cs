@@ -63,7 +63,7 @@ namespace TVGrid
 
         public int ProgramId { get; set; }
 
-        public Program Program { get; set; }
+        public IEnumerable<Program> Programs { get; set; }
     }
 
     public class Program
