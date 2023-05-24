@@ -41,7 +41,7 @@ namespace TVGrid
             //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
             //insert into [Role] (Title, Description, UserId) values ('Админ', 'Админ системы', 1)
             MyDB db = new();
-            User user = await db.User.Include(u => u.Roles).FirstOrDefaultAsync(u =>  u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
+            User user = await db.User.Include(u => u.Role).FirstOrDefaultAsync(u =>  u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
             if (user == null)
             {
                 lbErr.Visibility = Visibility.Visible;
@@ -49,10 +49,10 @@ namespace TVGrid
             }
             App.setVar("UserName", user.LastName + " " + user.FistName);
             App.setVar("UserID", user.Id.ToString());
-            App.setVar("RoleName", user.Roles.FirstOrDefault().Title);
-            App.setVar("RoleID", user.Roles.FirstOrDefault().Id.ToString());
+            App.setVar("RoleName", user.Role.Title);
+            App.setVar("RoleID", user.Role.Id.ToString());
             MessageBox.Show(App.getVar("UserName"));
-            MainWondow mw = new();
+            MainWindow mw = new();
             mw.Show();
             Close(); 
         }

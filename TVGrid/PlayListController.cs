@@ -8,6 +8,5 @@ namespace TVGrid
 {
     internal class PlayListController
     {
-        public bool SavePlaylis(Play)
     }
 }
