@@ -35,6 +35,8 @@ namespace TVGrid
         public string Title { get; set; }
         public string Description { get; set; }
 
+        public virtual IEnumerable<User> Users { get; set; }
+
     }
 
     public class User
@@ -49,7 +51,7 @@ namespace TVGrid
         public int Password { get; private set; }
         public string UserName { get; private set; }
 
-        public IEnumerable<Role> Roles { get; set; }
+        public virtual Role Role { get; set; }
 
     }
 
@@ -58,7 +60,6 @@ namespace TVGrid
         public int Id { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
-        public int ProgramId { get; set; }
         public IEnumerable<Program> Programs { get; set; }
     }
 
@@ -67,7 +68,8 @@ namespace TVGrid
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
+        public int ScheduleID { get; set; }
+        public virtual Schedule Schedule { get; set; }
         public IEnumerable<Advertisement> Advertisements { get; set; }
     }
 
@@ -76,10 +78,11 @@ namespace TVGrid
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ProgramId { get; set; }
-
+        public int ProgramID { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
+
+        public virtual Program Program { get; set; }
     }
 }
 
