@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,23 +33,28 @@ namespace TVGrid
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        private async void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
             //insert into [Role] (Title, Description, UserId) values ('Админ', 'Админ системы', 1)
             MyDB db = new();
-            int users = db.User.Where(u => u.UserName == this.tbLogin.Text && u.Password.ToString() == this.tbPass.Password).Count();
-            if (users <= 0)
+            User user = await db.User.Include(u => u.Roles).FirstOrDefaultAsync(u =>  u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
+            if (user == null)
             {
-                this.lbErr.Visibility = Visibility.Visible;
+                lbErr.Visibility = Visibility.Visible;
                 return;
             }
+            App.setVar("UserName", user.LastName + " " + user.FistName);
+            App.setVar("UserID", user.Id.ToString());
+            App.setVar("RoleName", user.Roles.FirstOrDefault().Title);
+            App.setVar("RoleID", user.Roles.FirstOrDefault().Id.ToString());
+            MessageBox.Show(App.getVar("UserName"));
             MainWondow mw = new();
             mw.Show();
-            this.Close(); 
+            Close(); 
         }
     }
 }

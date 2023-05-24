@@ -13,5 +13,12 @@ namespace TVGrid
     /// </summary>
     public partial class App : Application
     {
+        public static void setVar(string nameSettings, string value) {
+            ConfigurationManager.AppSettings[nameSettings] = value;
+        }
+        public static string getVar(string nameSettings)
+        {
+            return ConfigurationManager.AppSettings[nameSettings];
+        }
     }
 }
