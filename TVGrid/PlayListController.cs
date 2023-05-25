@@ -28,7 +28,6 @@ namespace TVGrid
 
             return result;
         }
-
         public async Task<bool> Save(IEnumerable<Schedule> scheds)
         {
             if (scheds?.Any() != true)  // scheds?.Count() == 0 изменил проверку, т.к. эта "scheds?.Count() == 0"  не работает, хз почему
