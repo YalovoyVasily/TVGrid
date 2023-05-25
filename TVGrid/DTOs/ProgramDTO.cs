@@ -8,6 +8,7 @@ namespace TVGrid.DTOs
 {
     public class ProgramDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Duration { get; set; }
@@ -17,6 +18,7 @@ namespace TVGrid.DTOs
 
         public ProgramDTO(Program program)
         {
+            Id = program.Id;
             Name = program.Name;
             Description = program.Description;
             Schedule= program.Schedule;
