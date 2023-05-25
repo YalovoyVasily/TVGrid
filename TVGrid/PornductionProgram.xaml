@@ -1,4 +1,4 @@
-﻿<Page x:Class="TVGrid.PornductionProgram"
+﻿<Window x:Class="TVGrid.PornductionProgram"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
   
     Title="PornductionProgram">
 
-   
+
 
     <Grid Background="Azure">
         <TabControl Margin="0,208,0,0">
@@ -37,8 +37,10 @@
         <Button Content="Добавить" HorizontalAlignment="Right" Margin="0,38,569,0" VerticalAlignment="Top" Height="55" Width="78" FontFamily="Cascadia Code SemiBold" IsEnabled="False" />
         <Canvas Width=" 200" Margin="319,38,281,254" Background="AntiqueWhite">
             <Label Content="Укажите время начала" Canvas.Left="62" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76"/>
-            <TextBox Canvas.Left="77" TextWrapping="Wrap" Text="TextBox" Canvas.Top="65" Width="120"/>
+            <TextBox Canvas.Left="47" TextWrapping="Wrap"  Canvas.Top="62" Width="120" Text="{Binding TimeValue, Converter={StaticResource TimeFormatConverter}}"/>
         </Canvas>
     </Grid>
-  
-</Page>
+    <Window.Resources>
+     
+    </Window.Resources>
+</Window>

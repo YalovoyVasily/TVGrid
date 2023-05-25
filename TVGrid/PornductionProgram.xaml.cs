@@ -39,7 +39,7 @@ namespace TVGrid
     /// <summary>
     /// Логика взаимодействия для PornductionProgram.xaml
     /// </summary>
-    public partial class PornductionProgram : Page
+    public partial class PornductionProgram : Window
     {
         PlayListController playercontr = new PlayListController();
         public PornductionProgram()
@@ -54,7 +54,7 @@ namespace TVGrid
         List<ProgramDTO> scu = new List<ProgramDTO>();
         public  void LoudData()
         {
-            scu =  playercontr.GetAllPrograms();
+     //       scu =  playercontr.GetAllPrograms();
      
         }
         private async Task Page_Loaded(object sender, RoutedEventArgs e)
