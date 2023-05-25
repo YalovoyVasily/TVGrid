@@ -39,24 +39,27 @@ namespace TVGrid
 
         private async void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            var dfsf = new PlayListController();
+            MyDB db = new();
 
-            var D1 = new DateTime(2023, 5, 19, 07, 00, 00); //19.05.2023 2:00:00
-            var D2 = new DateTime(2023, 5, 19, 08, 02, 00); //19.05.2023 4:00:00
+            //var dfsf = new PlayListController();
 
-            await dfsf.CanAddProgram(D1, D2);
+            //var D1 = new DateTime(2023, 5, 19, 07, 00, 00); //19.05.2023 2:00:00
+            //var D2 = new DateTime(2023, 5, 19, 08, 02, 00); //19.05.2023 4:00:00
+
+            //await dfsf.CanAddProgram(D1, D2);
 
             //var D1 = new DateTime(2023, 5, 19, 04, 01, 00); //19.05.2023 2:00:00
             //var D2 = new DateTime(2023, 5, 19, 04, 02, 00); //19.05.2023 4:00:00
 
             //await dfsf.CanAddProgram(D1, D2);
 
+            //await dfsf.GetAllPrograms();
 
             //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
             //insert into [Role] (Title, Description) values ('Админ', 'Админ системы')
-            MyDB db = new();
+           
 
-            await dfsf.GetAllPrograms();
+            
 
             User user = await db.User.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
             if (user == null)
