@@ -34,5 +34,10 @@ namespace TVGrid
         {
             ((TextBlock)sender).Text = (string)e.Data.GetData(DataFormats.Text);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

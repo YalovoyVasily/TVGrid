@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using TVGrid.DTOs;
 
 namespace TVGrid
 {
@@ -18,6 +19,15 @@ namespace TVGrid
         //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 02:00:00.000', '2023-05-19 03:00:00.000',1)
         //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 03:00:00.000', '2023-05-19 04:00:00.000',1)
         //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 04:00:00.000', '2023-05-19 05:00:00.000',2)
+
+        public async Task<List<ProgramDTO>> GetAllPrograms()
+        {
+            await using var context = new MyDB();
+
+            var result = await context.Program.Select(x => new ProgramDTO(x)).ToListAsync();
+
+            return result;
+        }
 
         public async Task<bool> Save(IEnumerable<Schedule> scheds)
         {

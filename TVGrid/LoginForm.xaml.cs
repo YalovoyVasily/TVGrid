@@ -41,11 +41,14 @@ namespace TVGrid
         {
             var dfsf = new PlayListController();
 
+           
+
 
             //insert into [User] (FistName, LastName, PhoneNumber, RoleId, [Password], UserName) values ('Иванов', 'Иван', '+7912231', 1, 1, '1')
             //insert into [Role] (Title, Description) values ('Админ', 'Админ системы')
             MyDB db = new();
 
+           await dfsf.GetAllPrograms();
 
             User user = await db.User.Include(u => u.Role).FirstOrDefaultAsync(u =>  u.UserName == tbLogin.Text && u.Password.ToString() == tbPass.Password);
             if (user == null)

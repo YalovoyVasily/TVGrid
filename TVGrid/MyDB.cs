@@ -86,6 +86,7 @@ namespace TVGrid
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public TimeSpan Duration { get; set; }
         public IEnumerable<Schedule> Schedule { get; set; }
         public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
 
