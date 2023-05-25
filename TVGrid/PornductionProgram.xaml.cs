@@ -25,6 +25,6 @@ namespace TVGrid
         {
             InitializeComponent();
         }
-        //List<string> scu = new List<string>();
+        List<string> scu = new List<string>();
     }
 }
