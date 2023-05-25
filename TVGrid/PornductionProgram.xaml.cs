@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace TVGrid
 {
+
     /// <summary>
     /// Логика взаимодействия для PornductionProgram.xaml
     /// </summary>
@@ -24,20 +25,6 @@ namespace TVGrid
         {
             InitializeComponent();
         }
-        private void lbl1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Label lbl = (Label)sender;
-            DragDrop.DoDragDrop(lbl, lbl.Content, DragDropEffects.Copy);
-        }
-
-        private void txtTarget_Drop(object sender, DragEventArgs e)
-        {
-            ((TextBlock)sender).Text = (string)e.Data.GetData(DataFormats.Text);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        List<string> scu = new List<string>();
     }
 }
