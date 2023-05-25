@@ -6,19 +6,39 @@
       xmlns:local="clr-namespace:TVGrid"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PornductionProgram">
+  
+    Title="PornductionProgram">
 
-    <Grid>
-        <TabControl Margin="0,83,0,0">
-            <TabItem Header="Расписание" FontFamily="Cascadia Code SemiBold">
-                <DataGrid x:Name="dgShedule" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+   
+
+    <Grid Background="Azure">
+        <TabControl Margin="0,208,0,0">
+            <TabItem Header="Основные программы" FontFamily="Cascadia Code SemiBold">
+                <ListView x:Name="MailList">
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </TabItem>
             <TabItem Header="Реклама" FontFamily="Cascadia Code SemiBold">
 
             </TabItem>
-        </TabControl>
-        <Button Content="Редактировать плейлист" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" IsEnabled="False" Click="Button_Click"/>
-        <Label x:Name="lblUserName" Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="171" FontFamily="Cascadia Code SemiBold"/>
 
+        </TabControl>
+        <Button Content="Сохранить" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" IsEnabled="False" />
+
+        <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" Text="Описание" VerticalAlignment="Top" Height="34" Width="97"/>
+        <TextBlock  x:Name="Duration" HorizontalAlignment="Left" Margin="16,96,0,0" TextWrapping="Wrap" Text="Продолжительность" VerticalAlignment="Top" Height="32" Width="117"/>
+        <Label Content="Продолжительность" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top"/>
+        <Label Content="Описание" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+        <Button Content="Добавить" HorizontalAlignment="Right" Margin="0,38,569,0" VerticalAlignment="Top" Height="55" Width="78" FontFamily="Cascadia Code SemiBold" IsEnabled="False" />
+        <Canvas Width=" 200" Margin="319,38,281,254" Background="AntiqueWhite">
+            <Label Content="Укажите время начала" Canvas.Left="62" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76"/>
+            <TextBox Canvas.Left="77" TextWrapping="Wrap" Text="TextBox" Canvas.Top="65" Width="120"/>
+        </Canvas>
     </Grid>
+  
 </Page>

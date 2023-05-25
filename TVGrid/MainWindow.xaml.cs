@@ -24,15 +24,24 @@ namespace TVGrid
             InitializeComponent();
         }
 
-        private MyDB myDB;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            myDB = new MyDB();
+           
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        //Получение данныз
+        private async void MainWindow1_Loaded(object sender, RoutedEventArgs e)
+        {
+            await using var context = new MyDB();
+            lblUserName.Content = App.getVar("UserName");
+            if (App.getVar("RoleName") == "Админ")
+                btEdit.IsEnabled = true;
 
         }
     }

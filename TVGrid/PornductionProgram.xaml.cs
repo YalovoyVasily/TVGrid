@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,32 +13,67 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TVGrid.DTOs;
 
 namespace TVGrid
 {
+    public class TimeFormatConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is DateTime time)
+            {
+                // Преобразовать значение времени в нужный формат
+                return time.ToString("HH:mm:ss");
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+
     /// <summary>
     /// Логика взаимодействия для PornductionProgram.xaml
     /// </summary>
     public partial class PornductionProgram : Page
     {
+        PlayListController playercontr = new PlayListController();
         public PornductionProgram()
         {
+
             InitializeComponent();
-        }
-        private void lbl1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Label lbl = (Label)sender;
-            DragDrop.DoDragDrop(lbl, lbl.Content, DragDropEffects.Copy);
+
+            LoudData();
+            MailList.ItemsSource = scu;
         }
 
-        private void txtTarget_Drop(object sender, DragEventArgs e)
+        List<ProgramDTO> scu = new List<ProgramDTO>();
+        public  void LoudData()
         {
-            ((TextBlock)sender).Text = (string)e.Data.GetData(DataFormats.Text);
+            scu =  playercontr.GetAllPrograms();
+     
+        }
+        private async Task Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            scu = await playercontr.GetAllPrograms();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var item = sender as ListViewItem;
+            if (item != null && item.IsSelected)
+            {
+                Description.Text =  scu[item.TabIndex].Description;
+                Duration.Text =  scu[item.TabIndex].Duration.ToString();
+            }
         }
     }
 }
