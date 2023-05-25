@@ -7,33 +7,49 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using TVGrid.DTOs;
+using TVGrid.Enums;
 
 namespace TVGrid
 {
     public class PlayListController
     {
 
-        //insert into [Program] (Name, Description) values ('1', '1')
-        //insert into[Program] (Name, Description) values('2', '1')
+        //insert into [ProgramTypeDictionary] (Title, Description) values ('1', '1') 
+        // insert into[ProgramTypeDictionary] (Title, Description) values('2', '2')
+        //insert into[Program] (Name, Description, Duration, ProgramTypeDictionaryID) values('1', '1','01:00:00',1)
+        //insert into[Program] (Name, Description, Duration, ProgramTypeDictionaryID) values('2', '1','02:00:00',1)
+        //insert into[Program] (Name, Description, Duration, ProgramTypeDictionaryID) values('3', '1','04:00:00',2)
         //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 00:00:00.000', '2023-05-19 01:00:00.000',1)
-        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 02:00:00.000', '2023-05-19 03:00:00.000',1)
-        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 03:00:00.000', '2023-05-19 04:00:00.000',1)
-        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 04:00:00.000', '2023-05-19 05:00:00.000',2)
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 02:00:00.000', '2023-05-19 04:00:00.000',2)
+        //insert into[Schedule] (TimeStart, TimeEnd, ProgramID) values('2023-05-19 04:05:00.000', '2023-05-19 07:05:00.000',3)
 
         public async Task<List<ProgramDTO>> GetAllPrograms()
         {
             await using var context = new MyDB();
 
-            var result = await context.Program.Select(x => new ProgramDTO(x)).ToListAsync();
+            var result = await context.Program.Where(x => x.ProgramTypeDictionaryID == (int)ProgramEnum.Program).Select(x => new ProgramDTO(x)).ToListAsync();
 
             return result;
         }
+
+        public async Task<bool> CanAddProgram(DateTime dateFrom, DateTime dateTo)
+        {
+            await using var context = new MyDB();
+
+            var isProgramExist = await context.Schedule.AnyAsync(s => 
+            (s.TimeStart >= dateFrom && s.TimeEnd <= dateTo)||
+            (dateFrom <= s.TimeEnd && dateTo>= s.TimeStart) 
+            );
+
+            return true;
+        }
+
         public async Task<bool> Save(IEnumerable<Schedule> scheds)
         {
             if (scheds?.Any() != true)  // scheds?.Count() == 0 изменил проверку, т.к. эта "scheds?.Count() == 0"  не работает, хз почему
-            { 
-                MessageBox.Show("Плейлист пустой"); 
-                return false; 
+            {
+                MessageBox.Show("Плейлист пустой");
+                return false;
             }
             try
             {
@@ -100,10 +116,12 @@ namespace TVGrid
             try
             {
                 MyDB db = new();
-                 IEnumerable<Schedule> sched = await db.Schedule
-                    .Include(s => s.Program)
-                    .Where(s =>  s.TimeStart >= dateFrom && s.TimeEnd <= dateTo).ToListAsync();
-                 return sched;
+
+                IEnumerable<Schedule> sched = await db.Schedule
+                   .Include(s => s.Program)
+                   .Where(s => s.TimeStart >= dateFrom && s.TimeEnd <= dateTo).ToListAsync();
+
+                return sched;
             }
             catch (Exception ex)
             {
@@ -111,6 +129,18 @@ namespace TVGrid
                 return null;
             }
         }
+
+
+        //var D1 = new DateTime(2023, 5, 19, 07, 00, 00); //19.05.2023 2:00:00
+        //var D2 = new DateTime(2023, 5, 19, 08, 02, 00); //19.05.2023 4:00:00
+
+        //await dfsf.CanAddProgram(D1, D2);
+
+        //var D1 = new DateTime(2023, 5, 19, 04, 01, 00); //19.05.2023 2:00:00
+        //var D2 = new DateTime(2023, 5, 19, 04, 02, 00); //19.05.2023 4:00:00
+
+        //await dfsf.CanAddProgram(D1, D2);
+
 
         //var dfsf = new PlayListController();
         ////var dff =new DateTime(2023,5,19,00,00,00); //2023-05-19 00:00:00.000
