@@ -44,19 +44,20 @@ namespace TVGrid
         PlayListController playercontr = new PlayListController();
         public PornductionProgram()
         {
-
+            LoudData();
             InitializeComponent();
 
-            LoudData();
-            MailList.ItemsSource = scu;
+         
+          
         }
 
         List<ProgramDTO> scu = new List<ProgramDTO>();
-        public  void LoudData()
-        {
-     //       scu =  playercontr.GetAllPrograms();
-     
-        }
+         private   async Task  LoudData()
+         {
+            scu = await  playercontr.GetAllPrograms();
+            MailList.ItemsSource = scu;//поля выводить вся работа с await
+
+         }
         private async Task Page_Loaded(object sender, RoutedEventArgs e)
         {
             scu = await playercontr.GetAllPrograms();
