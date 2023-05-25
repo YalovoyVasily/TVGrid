@@ -13,7 +13,6 @@ namespace TVGrid.DTOs
         public string Description { get; set; }
         public double Duration { get; set; }
         public IEnumerable<Schedule> Schedule { get; set; }
-        public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
 
 
         public ProgramDTO(Program program)
@@ -22,7 +21,6 @@ namespace TVGrid.DTOs
             Name = program.Name;
             Description = program.Description;
             Schedule= program.Schedule;
-            AdvertisementProgram= program.AdvertisementProgram;
             Duration = program.Duration.TotalSeconds;
         }
 

@@ -102,8 +102,6 @@ namespace TVGrid
                 MyDB db = new();
                  IEnumerable<Schedule> sched = await db.Schedule
                     .Include(s => s.Program)
-                    .ThenInclude(ap => ap.AdvertisementProgram)
-                    .ThenInclude(a => a.Advertisement)
                     .Where(s =>  s.TimeStart >= dateFrom && s.TimeEnd <= dateTo).ToListAsync();
                  return sched;
             }

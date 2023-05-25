@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TVGrid;
 
@@ -11,9 +12,11 @@ using TVGrid;
 namespace TVGrid.Migrations
 {
     [DbContext(typeof(MyDB))]
-    partial class MyDBModelSnapshot : ModelSnapshot
+    [Migration("20230525202457_addedProgramTypeDictionary")]
+    partial class addedProgramTypeDictionary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,54 @@ namespace TVGrid.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TVGrid.Advertisement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TimeStart")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Advertisement");
+                });
+
+            modelBuilder.Entity("TVGrid.AdvertisementProgram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdvertisementID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProgramID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementID");
+
+                    b.HasIndex("ProgramID");
+
+                    b.ToTable("AdvertisementProgram");
+                });
 
             modelBuilder.Entity("TVGrid.Program", b =>
                 {
@@ -39,12 +90,12 @@ namespace TVGrid.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProgramTypeDictionaryID")
+                    b.Property<int?>("ProgramTypeDictionaryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProgramTypeDictionaryID");
+                    b.HasIndex("ProgramTypeDictionaryId");
 
                     b.ToTable("Program");
                 });
@@ -144,15 +195,30 @@ namespace TVGrid.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("TVGrid.Program", b =>
+            modelBuilder.Entity("TVGrid.AdvertisementProgram", b =>
                 {
-                    b.HasOne("TVGrid.ProgramTypeDictionary", "ProgramTypeDictionary")
-                        .WithMany("Programs")
-                        .HasForeignKey("ProgramTypeDictionaryID")
+                    b.HasOne("TVGrid.Advertisement", "Advertisement")
+                        .WithMany("AdvertisementProgram")
+                        .HasForeignKey("AdvertisementID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProgramTypeDictionary");
+                    b.HasOne("TVGrid.Program", "Program")
+                        .WithMany("AdvertisementProgram")
+                        .HasForeignKey("ProgramID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Advertisement");
+
+                    b.Navigation("Program");
+                });
+
+            modelBuilder.Entity("TVGrid.Program", b =>
+                {
+                    b.HasOne("TVGrid.ProgramTypeDictionary", null)
+                        .WithMany("Programs")
+                        .HasForeignKey("ProgramTypeDictionaryId");
                 });
 
             modelBuilder.Entity("TVGrid.Schedule", b =>
@@ -177,8 +243,15 @@ namespace TVGrid.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("TVGrid.Advertisement", b =>
+                {
+                    b.Navigation("AdvertisementProgram");
+                });
+
             modelBuilder.Entity("TVGrid.Program", b =>
                 {
+                    b.Navigation("AdvertisementProgram");
+
                     b.Navigation("Schedule");
                 });
 

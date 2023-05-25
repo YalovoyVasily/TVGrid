@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TVGrid;
 
@@ -11,9 +12,11 @@ using TVGrid;
 namespace TVGrid.Migrations
 {
     [DbContext(typeof(MyDB))]
-    partial class MyDBModelSnapshot : ModelSnapshot
+    [Migration("20230525202607_RemoveAdvertisement")]
+    partial class RemoveAdvertisement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,12 +42,12 @@ namespace TVGrid.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProgramTypeDictionaryID")
+                    b.Property<int?>("ProgramTypeDictionaryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProgramTypeDictionaryID");
+                    b.HasIndex("ProgramTypeDictionaryId");
 
                     b.ToTable("Program");
                 });
@@ -146,13 +149,9 @@ namespace TVGrid.Migrations
 
             modelBuilder.Entity("TVGrid.Program", b =>
                 {
-                    b.HasOne("TVGrid.ProgramTypeDictionary", "ProgramTypeDictionary")
+                    b.HasOne("TVGrid.ProgramTypeDictionary", null)
                         .WithMany("Programs")
-                        .HasForeignKey("ProgramTypeDictionaryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProgramTypeDictionary");
+                        .HasForeignKey("ProgramTypeDictionaryId");
                 });
 
             modelBuilder.Entity("TVGrid.Schedule", b =>

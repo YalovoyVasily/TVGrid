@@ -16,7 +16,7 @@ namespace TVGrid
         public DbSet<Schedule> Schedule { get; set; }
 
         public DbSet<Program> Program { get; set; }
-        public DbSet<Advertisement> Advertisement { get; set; }
+        public DbSet<ProgramTypeDictionary> ProgramTypeDictionary { get; set; }
 
 
 
@@ -87,30 +87,19 @@ namespace TVGrid
         public string Name { get; set; }
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
+        public int ProgramTypeDictionaryID { get; set; }
+
+        public ProgramTypeDictionary ProgramTypeDictionary { get; set; }
         public IEnumerable<Schedule> Schedule { get; set; }
-        public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
-
     }
 
-    public class AdvertisementProgram
+    public class ProgramTypeDictionary
     {
         public int Id { get; set; }
-        public int ProgramID { get; set; }
-        public int AdvertisementID { get; set; }
-
-        public virtual Advertisement Advertisement { get; set; }
-        public virtual Program Program { get; set; }
-    }
-
-    public class Advertisement
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime TimeStart { get; set; }
-        public DateTime TimeEnd { get; set; }
-
-        public IEnumerable<AdvertisementProgram> AdvertisementProgram { get; set; }
+        public virtual IEnumerable<Program> Programs { get; set; }
     }
+
 }
 
