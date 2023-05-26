@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TVGrid.DTOs;
+using TVGrid.Enums;
 
 namespace TVGrid
 {
@@ -25,24 +29,39 @@ namespace TVGrid
         }
 
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            PornductionProgram PrnProg = new();
+            PrnProg.Show();
+            Close();
         }
+
+
 
         //Получение данныз
         private async void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
-            await using var context = new MyDB();
             lblUserName.Content = App.getVar("UserName");
             if (App.getVar("RoleName") == "Админ")
                 btEdit.IsEnabled = true;
 
+            PlayListController PlayListController = new PlayListController();
+
+
+            var ListProgrammsSorted = await PlayListController.Get(DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
+
+            ListProgrammsSorted = ListProgrammsSorted.Where(x => x.Program.ProgramTypeDictionaryID == (int)ProgramEnum.Program);
+
+            dgShedule.ItemsSource = ListProgrammsSorted.Select(x => new ListProgramsDTO(x));
+
+            dgShedule.Columns[0].Header = "Название передачи";
+            dgShedule.Columns[1].Header = "Описание";
+            dgShedule.Columns[2].Header = "Начало";
+            dgShedule.Columns[3].Header = "Конец";
+
         }
     }
+
+
+
 }
