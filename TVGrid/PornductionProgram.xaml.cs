@@ -33,7 +33,7 @@ namespace TVGrid
          
           
         }
-
+        List<Schedule> sschedule = new List<Schedule>();
         List<ProgramDTO> scu = new List<ProgramDTO>();
          private   async Task  LoudData()
          {
@@ -91,7 +91,8 @@ namespace TVGrid
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DateTime enteredDate = DateTime.Parse(Datapic.Text);
-            playercontr.CanAddProgram(enteredDate,)
+
+            playercontr.CanAddProgram(enteredDate,);
         }
     }
 }
