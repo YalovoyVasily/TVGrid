@@ -79,6 +79,10 @@ namespace TVGrid
         public int ProgramID { get; set; }
         public virtual Program Program { get; set; }
 
+        public Schedule()
+        {
+
+        }
 
         public Schedule(DateTime TimeStart, DateTime TimeEnd, int ProgramID)
         {

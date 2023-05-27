@@ -39,7 +39,7 @@ namespace TVGrid
             var isProgramExist = await context.Schedule.AnyAsync(s => 
             (s.TimeStart >= dateFrom && s.TimeEnd <= dateTo)||
             (dateFrom <= s.TimeEnd && dateTo>= s.TimeStart) 
-);
+            );
 
             return isProgramExist;
         }
