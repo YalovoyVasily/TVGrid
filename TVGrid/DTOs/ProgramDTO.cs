@@ -11,7 +11,7 @@ namespace TVGrid.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Duration { get; set; }
+        public TimeSpan Duration { get; set; }
         public IEnumerable<Schedule> Schedule { get; set; }
 
 
@@ -21,7 +21,7 @@ namespace TVGrid.DTOs
             Name = program.Name;
             Description = program.Description;
             Schedule= program.Schedule;
-            Duration = program.Duration.TotalSeconds;
+            Duration = program.Duration;
         }
 
     }
