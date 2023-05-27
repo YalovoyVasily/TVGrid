@@ -17,24 +17,7 @@ using TVGrid.DTOs;
 
 namespace TVGrid
 {
-    public class TimeFormatConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is DateTime time)
-            {
-                // Преобразовать значение времени в нужный формат
-                return time.ToString("HH:mm:ss");
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-    }
+    
 
     /// <summary>
     /// Логика взаимодействия для PornductionProgram.xaml
@@ -55,7 +38,11 @@ namespace TVGrid
          private   async Task  LoudData()
          {
             scu = await  playercontr.GetAllPrograms();
-            MailList.ItemsSource = scu;//поля выводить вся работа с await
+            for(int i = 0; i < scu.Count; i++)
+            {
+                MailList.ItemsSource += scu[i].Name;//поля выводить вся работа с await
+            }
+           
 
          }
         private async Task Page_Loaded(object sender, RoutedEventArgs e)
@@ -69,12 +56,42 @@ namespace TVGrid
         }
         private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var item = sender as ListViewItem;
-            if (item != null && item.IsSelected)
+            ListViewItem clickedItem = sender as ListViewItem;
+            int var = MailList.SelectedIndex;
+            // Проверка, что нажатие произошло на элементе
+            if (clickedItem != null)
             {
-                Description.Text =  scu[item.TabIndex].Description;
-                Duration.Text =  scu[item.TabIndex].Duration.ToString();
+                // Получить индекс элемента в коллекции Items ListView
+                int index = MailList.SelectedIndex;
+                Description.Text = scu[MailList.SelectedIndex].Description;
+                Duration.Text = scu[MailList.SelectedIndex].Duration.ToString();
+                // Выполнить нужные действия с индексом элемента
+                // Например, обновить другие элементы управления с использованием индекса
             }
+            //var item = sender as ListViewItem;
+            //if (item != null && item.IsSelected)
+            //{
+            //    Description.Text =  scu[item.TabIndex].Description;
+            //    Duration.Text =  scu[item.TabIndex].Duration.ToString();
+            //}
+        }
+
+   
+        private void MailList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Description.Text = scu[MailList.SelectedIndex].Description;
+            Duration.Text = scu[MailList.SelectedIndex].Duration.ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Canv.IsEnabled = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            DateTime enteredDate = DateTime.Parse(Datapic.Text);
+            playercontr.CanAddProgram(enteredDate,)
         }
     }
 }

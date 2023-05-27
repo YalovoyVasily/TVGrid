@@ -41,7 +41,7 @@ namespace TVGrid
             (dateFrom <= s.TimeEnd && dateTo>= s.TimeStart) 
             );
 
-            return true;
+            return isProgramExist;
         }
 
         public async Task<bool> Save(IEnumerable<Schedule> scheds)
