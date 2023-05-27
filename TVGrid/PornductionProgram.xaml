@@ -26,7 +26,7 @@
             </TabItem>
 
         </TabControl>
-        <Button Content="Сохранить" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" />
+        <Button Content="Сохранить" HorizontalAlignment="Right" Margin="0,153,10,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" />
 
         <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" Text="Описание" VerticalAlignment="Top" Height="34" Width="97"/>
         <TextBlock  x:Name="Duration" HorizontalAlignment="Left" Margin="16,96,0,0" TextWrapping="Wrap" Text="Продолжительность" VerticalAlignment="Top" Height="32" Width="117"/>
@@ -38,6 +38,10 @@
             <xctk:MaskedTextBox Mask="00:00" x:Name="Datapic" Canvas.Left="85" TextWrapping="Wrap"  Canvas.Top="66" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center" />
             <Button Click="Button_Click_1" Style="{StaticResource MaterialDesignRaisedButton}" Content="Добавить" Canvas.Left="52" Canvas.Top="108"/>
         </Canvas>
+        <ListView  Margin="560,17,10,0" Height="113" VerticalAlignment="Top">
+           
+        </ListView>
+
     </Grid>
     <Window.Resources>
 
