@@ -95,7 +95,7 @@ namespace TVGrid
 
             if (!await playercontr.CanAddProgram(enteredDate, endDate))
             {
-                sschedule.Add();
+                sschedule.Add(new Schedule(enteredDate, endDate, scu[MailList.SelectedIndex]);
             }
            
         }
