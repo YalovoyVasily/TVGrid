@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TVGrid"
         mc:Ignorable="d"
         Title="TV Grid: Авторизация" Height="450" Width="334" Loaded="Window_Loaded">
-    <Grid Height="430" Width="330" MinWidth="330" MinHeight="430" MaxWidth="330" MaxHeight="430">
+    <Grid Height="430" Width="330" MinWidth="330" MinHeight="430" MaxWidth="330" MaxHeight="430" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}">
         <Button x:Name="btnLigin" Content="Вход" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Click="ButtonLogin_Click" Width="120" Cursor="Hand"/>
         <Label Content="TV GRID" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="134" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Cascadia Code SemiBold"/>
         <PasswordBox x:Name="tbPass" HorizontalAlignment="Left" Margin="98,230,0,0" VerticalAlignment="Top" Width="120"/>
