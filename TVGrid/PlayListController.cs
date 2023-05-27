@@ -31,7 +31,14 @@ namespace TVGrid
 
             return result;
         }
+        public async Task<List<ProgramDTO>> GetAllAdvertisement()
+        {
+            await using var context = new MyDB();
 
+            var result = await context.Program.Where(x => x.ProgramTypeDictionaryID == (int)ProgramEnum.Advertisement).Select(x => new ProgramDTO(x)).ToListAsync();
+
+            return result;
+        }
         public async Task<bool> CanAddProgram(DateTime dateFrom, DateTime dateTo)
         {
             await using var context = new MyDB();
@@ -111,13 +118,13 @@ namespace TVGrid
             }
         }
 
-        public async Task<IEnumerable<Schedule>> Get(DateTime dateFrom, DateTime dateTo) //  DateTime date добавил 2 даты, просто иначе инфу за временной период хуй получишь
+        public async Task<List<Schedule>> Get(DateTime dateFrom, DateTime dateTo) //  DateTime date добавил 2 даты, просто иначе инфу за временной период хуй получишь
         {
             try
             {
                 MyDB db = new();
 
-                IEnumerable<Schedule> sched = await db.Schedule
+                List<Schedule> sched = await db.Schedule
                    .Include(s => s.Program)
                    .Where(s => s.TimeStart >= dateFrom && s.TimeEnd <= dateTo).ToListAsync();
 
@@ -129,6 +136,7 @@ namespace TVGrid
                 return null;
             }
         }
+
 
 
         //var D1 = new DateTime(2023, 5, 19, 07, 00, 00); //19.05.2023 2:00:00

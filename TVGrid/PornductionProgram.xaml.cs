@@ -14,42 +14,63 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TVGrid.DTOs;
+using TVGrid.Enums;
 
 namespace TVGrid
 {
-    
+
 
     /// <summary>
     /// Логика взаимодействия для PornductionProgram.xaml
     /// </summary>
     public partial class PornductionProgram : Window
     {
+        DateTime D1;
         PlayListController playercontr = new PlayListController();
         public PornductionProgram()
         {
             LoudData();
+            LoudData2();
             InitializeComponent();
+            Canv.Visibility = Visibility.Visible;
+            basa.DisplayDate = DateTime.Now;
 
-         
-          
+
         }
         List<ListProgramsDTO> sschedule2 = new List<ListProgramsDTO>();
         List<Schedule> sschedule = new List<Schedule>();
+       
         List<ProgramDTO> scu = new List<ProgramDTO>();
-         private   async Task  LoudData()
+        List<ProgramDTO> adw = new List<ProgramDTO>();
+        private   async Task  LoudData()
          {
-            scu = await  playercontr.GetAllPrograms();
-            for(int i = 0; i < scu.Count; i++)
-            {
-                MailList.ItemsSource += scu[i].Name;//поля выводить вся работа с await
-            }
            
+               
+            PlayListController PlayListController = new PlayListController();
+          
+           
+            var ListProgrammsSorted = await PlayListController.Get(D1, D1.AddDays(1).Date);
+            if (ListProgrammsSorted.Count >0)
+            {
 
-         }
+
+                TvProgram.ItemsSource = ListProgrammsSorted.Select(x => new ListProgramsDTO(x));
+
+                TvProgram.Columns[0].Header = "Название передачи";
+                TvProgram.Columns[1].Header = "Описание";
+                TvProgram.Columns[2].Header = "Начало";
+                TvProgram.Columns[3].Header = "Конец";
+            }
+        }
         private async Task LoudData2()
         {
-          string a = "Название " + sschedule2[sschedule2.Count - 1].Name + "Время начала " + sschedule2[sschedule2.Count - 1].TimeStart + "Время конца " + sschedule2[sschedule2.Count - 1].TimeEnd;
-                TvProgram.ItemsSource += a;//поля выводить вся работа с await
+            scu = await playercontr.GetAllPrograms();
+
+            scu = scu.Concat( await playercontr.GetAllAdvertisement()).ToList();
+            for (int i = 0; i < scu.Count; i++)
+            {
+                MailList.Items.Add(scu[i].Name);//поля выводить вся работа с await
+            }
           
 
 
@@ -60,33 +81,18 @@ namespace TVGrid
         {
 
         }
-        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ListViewItem clickedItem = sender as ListViewItem;
-            int var = MailList.SelectedIndex;
-            // Проверка, что нажатие произошло на элементе
-            if (clickedItem != null)
-            {
-                // Получить индекс элемента в коллекции Items ListView
-                int index = MailList.SelectedIndex;
-                Description.Text = scu[MailList.SelectedIndex].Description;
-                Duration.Text = scu[MailList.SelectedIndex].Duration.ToString();
-                // Выполнить нужные действия с индексом элемента
-                // Например, обновить другие элементы управления с использованием индекса
-            }
-            //var item = sender as ListViewItem;
-            //if (item != null && item.IsSelected)
-            //{
-            //    Description.Text =  scu[item.TabIndex].Description;
-            //    Duration.Text =  scu[item.TabIndex].Duration.ToString();
-            //}
-        }
+     
 
    
         private void MailList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Description.Text = scu[MailList.SelectedIndex].Description;
             Duration.Text = scu[MailList.SelectedIndex].Duration.ToString();
+        }
+        private void MailList_SelectionChanged2(object sender, SelectionChangedEventArgs e)
+        {
+            Description.Text = adw[MailList.SelectedIndex].Description;
+            Duration.Text = adw[MailList.SelectedIndex].Duration.ToString();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -97,15 +103,30 @@ namespace TVGrid
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DateTime enteredDate = DateTime.Parse(Datapic.Text);
-            DateTime endDate = enteredDate.Add(scu[MailList.SelectedIndex].Duration);
+            DateTime enteredDate2 = DateTime.Parse(datapicer.Text);
+            DateTime dateTime = enteredDate2.Date.Add(enteredDate.TimeOfDay);
+            DateTime endDate = dateTime.Add(scu[MailList.SelectedIndex].Duration);
 
-            if (!await playercontr.CanAddProgram(enteredDate, endDate))
+            if (!await playercontr.CanAddProgram(dateTime, endDate))
             {
-                sschedule.Add(new Schedule(enteredDate, enteredDate, scu[MailList.SelectedIndex].Id));
+                sschedule.Add(new Schedule(dateTime, endDate, scu[MailList.SelectedIndex].Id));
                 sschedule2.Add(new ListProgramsDTO(scu[MailList.SelectedIndex].Name , scu[MailList.SelectedIndex].Description, enteredDate.ToString(), enteredDate.ToString()));
-                LoudData2();
+                await playercontr.Save(sschedule);
+                
             }
+            await LoudData();
+        }
+
+        private async void basa_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            D1 =  basa.SelectedDate.Value.Date;
+           await  LoudData();
+        }
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
            
+
+
         }
     }
 }

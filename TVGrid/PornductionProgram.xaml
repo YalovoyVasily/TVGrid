@@ -7,7 +7,7 @@
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         
         mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="800"
   
     Title="PornductionProgram">
 
@@ -18,38 +18,30 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="24*"/>
         </Grid.RowDefinitions>
-        <TabControl Margin="0,133,0,0" Grid.Row="1">
+        <TabControl x:Name="Taaaab"   Grid.Row="1" Height="292" VerticalAlignment="Top" Margin="0,357,0,0" HorizontalAlignment="Left" Width="1109" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Основные программы" FontFamily="Cascadia Code SemiBold">
-                <ListView x:Name="MailList" SelectionChanged="MailList_SelectionChanged" MouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
-
-
-                </ListView>
+                <ListView x:Name="MailList" SelectionChanged="MailList_SelectionChanged"  />
             </TabItem>
-            <TabItem Header="Реклама" FontFamily="Cascadia Code SemiBold">
-
-            </TabItem>
+           
 
         </TabControl>
-        <Button Content="Сохранить" HorizontalAlignment="Right" Margin="0,78,10,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" Grid.Row="1" />
+        
 
         <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" Text="Описание" VerticalAlignment="Top" Height="34" Width="97"/>
         <TextBlock  x:Name="Duration" HorizontalAlignment="Left" Margin="16,21,0,0" TextWrapping="Wrap" Text="Продолжительность" VerticalAlignment="Top" Height="32" Width="117" Grid.Row="1"/>
         <Label Content="Продолжительность" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
         <Label Content="Описание" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
         <Button IsEnabled="True" Click="Button_Click" Content="Добавить" HorizontalAlignment="Left" Margin="153,38,0,0" VerticalAlignment="Top" Height="55" Width="115" FontFamily="Cascadia Code SemiBold"  Cursor="Hand" Grid.RowSpan="2" />
-        <Canvas IsEnabled="False" x:Name="Canv" Width=" 200" Height="150" Margin="354,30,555,0" Background="AntiqueWhite" VerticalAlignment="Top" Grid.RowSpan="2">
+        <Canvas IsEnabled="False"    x:Name="Canv" Height="150" Margin="295,30,0,0" Background="AntiqueWhite" VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Left" Width="200" Visibility="Hidden">
             <Label Content="Укажите время начала" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center" Width="137" Canvas.Left="33"/>
             <xctk:MaskedTextBox Mask="00:00" x:Name="Datapic" Canvas.Left="85" TextWrapping="Wrap"  Canvas.Top="66" Width="30" HorizontalAlignment="Left" VerticalAlignment="Center" />
             <Button Click="Button_Click_1" Style="{StaticResource MaterialDesignRaisedButton}" Content="Добавить" Canvas.Left="52" Canvas.Top="108"/>
+            <DatePicker Name="datapicer" Canvas.Left="41" Canvas.Top="36" HorizontalAlignment="Left" Width="129" VerticalAlignment="Top"/>
         </Canvas>
-        <ListView  VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Right" x:Name="TvProgram"  Height="128" Width="525">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding YourStringProperty}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-       
+        
+        <DataGrid AutoGenerateColumns="True" IsReadOnly="True" RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black" FontSize="20" ColumnWidth="*" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" x:Name="TvProgram" Margin="554,17,0,380" Grid.RowSpan="2" HorizontalAlignment="Left" Width="526"/>
+        <DatePicker  SelectedDateChanged="basa_SelectedDateChanged" Name="basa" HorizontalAlignment="Left" Margin="649,297,0,0" Grid.Row="1" VerticalAlignment="Top" Height="28" Width="109" DisplayDate="05/19/2023 14:34:51"/>
+
 
     </Grid>
     <Window.Resources>
