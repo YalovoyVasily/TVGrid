@@ -60,6 +60,13 @@ namespace TVGrid
             dgShedule.Columns[3].Header = "Конец";
 
         }
+
+        private void dgShedule_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var row = (ListProgramsDTO)dgShedule.SelectedItem;
+            WebPicture webPicture = new WebPicture(row.Name);
+            webPicture.Show();
+        }
     }
 
 

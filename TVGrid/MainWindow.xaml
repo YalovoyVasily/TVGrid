@@ -16,12 +16,12 @@
                         <GradientStop Color="White" Offset="1"/>
                     </LinearGradientBrush>
                 </TabItem.Background>
-                <DataGrid x:Name="dgShedule" AutoGenerateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext ="" IsReadOnly="True" RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black" FontSize="20" ColumnWidth="*"/>
+                <DataGrid x:Name="dgShedule" AutoGenerateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext ="" IsReadOnly="True" RowBackground="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black" FontSize="20" ColumnWidth="*" SelectionChanged="dgShedule_SelectionChanged"/>
             </TabItem>
         </TabControl>
         
         <Button x:Name="btEdit" Content="Редактировать плейлист" HorizontalAlignment="Right" Margin="0,23,32,0" VerticalAlignment="Top" Height="55" Width="158" FontFamily="Cascadia Code SemiBold" IsEnabled="False" Click="Button_Click" FontSize="20"/>
-        <Label x:Name="lblUserName" Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="171" FontFamily="Cascadia Code SemiBold"/>
+        <Label x:Name="lblUserName" Content="Фамилия Имя Отчество" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="595" FontFamily="Cascadia Code SemiBold" FontSize="20"/>
         <Border BorderThickness="1" ClipToBounds="True">
             <Border.Effect>
                 <DropShadowEffect/>
