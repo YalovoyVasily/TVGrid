@@ -34,6 +34,13 @@ namespace TVGrid.DTOs
             TimeEnd = schedule.TimeEnd.ToShortTimeString();
 
         }
+        public ListProgramsDTO(string Name, string Description, string TimeStart, string TimeEnd)
+        {
+            this.Name = Name;
+            this.Description = Description;
+            this.TimeStart = TimeStart;
+            this.TimeEnd = TimeEnd;
+        }
 
     }
 }

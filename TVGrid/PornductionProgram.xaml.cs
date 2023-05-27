@@ -33,6 +33,7 @@ namespace TVGrid
          
           
         }
+        List<ListProgramsDTO> sschedule2 = new List<ListProgramsDTO>();
         List<Schedule> sschedule = new List<Schedule>();
         List<ProgramDTO> scu = new List<ProgramDTO>();
          private   async Task  LoudData()
@@ -45,10 +46,15 @@ namespace TVGrid
            
 
          }
-        private async Task Page_Loaded(object sender, RoutedEventArgs e)
+        private async Task LoudData2()
         {
-            scu = await playercontr.GetAllPrograms();
+          string a = "Название " + sschedule2[sschedule2.Count - 1].Name + "Время начала " + sschedule2[sschedule2.Count - 1].TimeStart + "Время конца " + sschedule2[sschedule2.Count - 1].TimeEnd;
+                TvProgram.ItemsSource += a;//поля выводить вся работа с await
+          
+
+
         }
+      
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -95,7 +101,9 @@ namespace TVGrid
 
             if (!await playercontr.CanAddProgram(enteredDate, endDate))
             {
-                sschedule.Add(new Schedule(enteredDate, endDate, scu[MailList.SelectedIndex]);
+                sschedule.Add(new Schedule(enteredDate, enteredDate, scu[MailList.SelectedIndex].Id));
+                sschedule2.Add(new ListProgramsDTO(scu[MailList.SelectedIndex].Name , scu[MailList.SelectedIndex].Description, enteredDate.ToString(), enteredDate.ToString()));
+                LoudData2();
             }
            
         }
