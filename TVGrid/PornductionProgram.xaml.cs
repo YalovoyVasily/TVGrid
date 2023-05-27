@@ -88,11 +88,16 @@ namespace TVGrid
             Canv.IsEnabled = true;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DateTime enteredDate = DateTime.Parse(Datapic.Text);
+            DateTime endDate = enteredDate.Add(scu[MailList.SelectedIndex].Duration);
 
-            playercontr.CanAddProgram(enteredDate,);
+            if (!await playercontr.CanAddProgram(enteredDate, endDate))
+            {
+                sschedule.Add();
+            }
+           
         }
     }
 }
